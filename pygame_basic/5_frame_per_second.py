@@ -28,7 +28,7 @@ to_x = 0
 to_y = 0
 
 # 이동 속도
-character_speed = 10
+character_speed = 0.3
 
 # 이벤트 루트
 running = True # 게임이 진행중인가?
@@ -48,14 +48,15 @@ while running:
                 to_y -= character_speed
             elif event.key == pygame.K_DOWN: # 캐릭터를 아래로
                 to_y += character_speed
+
         if event.type == pygame.KEYUP: # 방향키를 떼면 멈춤
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                to_x = character_speed
+                to_x = 0
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 to_y = 0
 
-    character_x_pos += to_x
-    character_y_pos += to_y
+    character_x_pos += to_x * dt
+    character_y_pos += to_y * dt
 
     # 가로 경계값 처리
     if character_x_pos < 0:
