@@ -13,7 +13,13 @@ pygame.display.set_caption("설이 Game") # 게임 이름
 # FPS
 clock = pygame.time.Clock()
 #########################################################################################
-
+# 볼 사이즈
+# ball1 : 160, 160
+# ball2 : 80, 80
+# ball3 : 40, 40
+# ball4 : 20, 20
+# 공 크기에 따른 속도 조절 필요
+#########################################################################################
 # 1. 사용자 게임 초기화 (배경 화면, 게임 이미지, 좌표, 속도, 폰트 등)
 current_path = os.path.dirname(__file__) # 현재 파일의 위치 반환
 image_path = os.path.join(current_path, "images") # images 폴더 위치 반환
@@ -21,18 +27,29 @@ image_path = os.path.join(current_path, "images") # images 폴더 위치 반환
 
 # 배경 이미지 불러오기
 background = pygame.image.load(os.path.join(image_path, "background.png"))
+# 스테이지 불러오기
+stage = pygame.image.load(os.path.join(image_path, "stage.png"))
+stage_size = stage.get_rect().size
+stage_height = stage_size[1] # 스테이지 높이 위에 캐릭터를 두기 위해 사용
+
 # 캐릭터 불러오기
 character = pygame.image.load(os.path.join(image_path, "character.png"))
+character_size = character.get_rect().size
+character_width = character_size[0]
+character_height = character_size[1]
+character_x = screen_width /2  - character_width / 2
+character_y = screen_height- stage_height - character_height
 
 # 캐릭터 이동 
 to_x = 0
-to_y = 0
+# to_y = 0
 
 # 이동 속도
-character_speed = 1
-
-# 적 캐릭터
-
+character_speed = 5
+weapon_speed = 10
+# 무기
+weapon = pygame.image.load(os.path.join(image_path, "weapon.png"))
+# 볼 가져오기 
 
 # 폰트 정의
 
@@ -50,7 +67,18 @@ while running:
         if event.type == pygame.QUIT: # 창이 닫히는 이벤트가 발생하였는가?
             running = False # 게임이 진행중이 아님
 
-
+        if event.type == pygame.KEYDOWN: # 키가 눌러졌는지 확인
+            if event.key == pygame.K_LEFT: # 캐릭터를 왼쪽으로
+                to_x -= character_speed
+            elif event.key == pygame.K_RIGHT: # 캐릭터를 오른쪽으로
+                to_x += character_speed
+            elif event.key == pygame.K_SPACE: # 무기 발사
+                
+                to_weapon += weapon_speed
+            # elif event.key == pygame.K_UP: # 캐릭터를 위로
+            #     to_y -= character_speed
+            # elif event.key == pygame.K_DOWN: # 캐릭터를 아래로
+            #     to_y += character_speed
     # 가로 경계값 처리
 
 
@@ -66,6 +94,8 @@ while running:
     # screen.blit(background, (0, 0)) # 배경 그리기
     # screen.fill((0, 0, 255)) # 배경을 파란색으로 채우기
     screen.blit(background, (0, 0))
+    screen.blit(stage, (0, screen_height - stage_height))
+    screen.blit(character, (character_x, character_y))
 
 
     # 타이머 집어 넣기  
