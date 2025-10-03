@@ -1,5 +1,5 @@
 import pygame
-
+#########################################################################################
 pygame.init() # 초기화 (반드시 필요)
 # 화면 크기 설정
 screen_width = 480 # 가로 크기
@@ -11,6 +11,9 @@ pygame.display.set_caption("설이 Game") # 게임 이름
 
 # FPS
 clock = pygame.time.Clock()
+#########################################################################################
+
+# 1. 사용자 게임 초기화 (배경 화면, 게임 이미지, 좌표, 속도, 폰트 등)
 
 # 배경 이미지 불러오기
 background = pygame.image.load("C:\\projectWeb\\pythonworkspace\\pygame_basic\\background.png")
@@ -102,7 +105,7 @@ while running:
 
 
     screen.fill((0, 0, 160)) # RGB 색상 채우기
-    # screen.blit(background, (0, 0)) # 배경 그리기//
+    screen.blit(background, (0, 0)) # 배경 그리기
     screen.blit(character, (character_x_pos, character_y_pos)) # 캐릭터 그리기
     screen.blit(enemy, (enemy_x_pos, enemy_y_pos)) # 적 캐릭터 그리기
 
