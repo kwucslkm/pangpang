@@ -86,7 +86,7 @@ weapon_to_remove = -1
 
 # 폰트 정의
 game_font = pygame.font.Font(None, 40) # 폰트 객체 생성 (폰트, 크기)
-total_time = 20 # 총 시간
+total_time = 50 # 총 시간
 start_ticks = pygame.time.get_ticks() # 시작 tick 을 받아옴
 # 게임 종료 메세지
 # Mission Complete(성공)
@@ -193,6 +193,8 @@ while running:
                 print("공과 무기 충돌")
                 del weapons[weapon_idx] # 해당 무기 없애기
                 del balls[ball_idx] # 해당 공 없애기
+                
+
                 if ball_img_idx < 3: # 가장 작은 공이 아니면
                     # 현재 공 크기 정보를 가지고 옴
                     ball_width = ball_size.size[0]
@@ -219,6 +221,11 @@ while running:
                         "to_y" : -6, # y 축 이동 방향
                         "init_spd_y" : ball_speed_y[ball_img_idx + 1] # 공의 y 방향 속도
                     })
+                
+                # 모든 공 없앴을 때
+                if len(balls) == 0:
+                    game_result = "Mission Complete"
+                    running = False
     # screen.fill((0, 0, 255)) # 배경을 파란색으로 채우기
     screen.blit(background, (0, 0)) # 배경 그리기
     for weapon_x, weapon_y in weapons:
