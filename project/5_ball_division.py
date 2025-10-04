@@ -83,8 +83,15 @@ balls.append({
 
 # 사라질  무기, 공 정보 저장 변수
 weapon_to_remove = -1
-# 폰트 정의
 
+# 폰트 정의
+game_font = pygame.font.Font(None, 40) # 폰트 객체 생성 (폰트, 크기)
+total_time = 20 # 총 시간
+start_ticks = pygame.time.get_ticks() # 시작 tick 을 받아옴
+# 게임 종료 메세지
+# Mission Complete(성공)
+# Time Over(시간 초과)
+game_result = "Game Over"
 # 총 시간
 
 # 시작 시간 정보
@@ -229,14 +236,20 @@ while running:
 
     # 타이머 집어 넣기  
     # 경과 시간 계산 start_ticks = pygame.time.get_ticks() # 시작 tick 을 받아옴
-
-    # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
-
-    # 출력할 글자, True, 글자 색상
-
-    # 시간이 0 이하이면 게임 종료
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 #
+    timer = game_font.render("Time : {}".format(int(total_time - elapsed_time)), True, (255, 255, 255))
+    screen.blit(timer, (10, 10))
+    # 시간 초과 했다면 
+    if total_time - elapsed_time <= 0:
+        game_result = "Time Over"
+        running = False
 
     pygame.display.update() # 화면 업데이트
+# 게임 종료 메세지
+msg = game_font.render(game_result, True, (255, 255, 0)) # 노란색
+msg_rect = msg.get_rect(center=(int(screen_width / 2), int(screen_height / 2)))
+screen.blit(msg, msg_rect)
+pygame.display.update() # 화면 업데이트
 
 # 잠시 대기
 pygame.time.delay(1000) # 1초 정도 대기 (ms)
